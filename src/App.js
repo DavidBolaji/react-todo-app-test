@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./App.css";
+
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
 
@@ -16,11 +16,11 @@ function App() {
         inputText={inputText}
         setInputText={setInputText}
         todos={todos}
-        setTodo={setTodos}
-      />
+        setTodo={setTodos} />
+
       <TodoList />
-    </div>
-  );
+    </div>);
+
 }
 
 export default App;
