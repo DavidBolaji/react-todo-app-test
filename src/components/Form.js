@@ -1,36 +1,57 @@
-const Form = ({ inputText, setInputText, todos, setTodo }) => {
-  const inputTextHandler = (e) => {
+'use client';
+
+import React from 'react';
+
+interface Todo {
+  text: string;
+  completed: boolean;
+  id: number;
+}
+
+interface FormProps {
+  inputText: string;
+  setInputText: (text: string) => void;
+  todos: Todo[];
+  setTodo: (todos: Todo[]) => void;
+}
+
+const Form: React.FC<FormProps> = ({ inputText, setInputText, todos, setTodo }) => {
+  const inputTextHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputText(e.target.value);
   };
 
-  const submitTodoHandler = (e) => {
+  const submitTodoHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setTodo([
-      ...todos,
-      { text: inputText, completed: false, id: Math.random() * 100 },
-    ]);
+    ...todos,
+    { text: inputText, completed: false, id: Math.random() * 100 }]
+    );
     setInputText("");
   };
+
   return (
-    <form>
+    <form onSubmit={submitTodoHandler}>
       <input
         type="text"
         value={inputText}
         onChange={inputTextHandler}
         className="todo-input"
-      />
-      <button onClick={submitTodoHandler} className="todo-button" type="submit">
-        <i className="fas fa-plus-square"></i>
+        aria-label="Enter todo item" />
+
+
+      <button className="todo-button" type="submit" aria-label="Add todo">
+        <i className="fas fa-plus-square" aria-hidden="true"></i>
       </button>
-      <div className="select">
-        <select name="todos" className="filter-todo">
+      <div className="absolute top-0 right-0 p-4 cursor-pointer">
+        <label htmlFor="filter-todo" className="sr-only">Filter todos</label>
+        <select name="todos" id="filter-todo" className="p-4" aria-label="Filter todos by status">
           <option value="all">All</option>
           <option value="completed">Completed</option>
           <option value="uncompleted">Uncompleted</option>
         </select>
       </div>
-    </form>
-  );
+    </form>);
+
 };
 
 export default Form;
